@@ -10,7 +10,8 @@ import '../widgets/genre_filter_bar.dart';
 import '../../data/models/genre.dart';
 
 // Couleurs rose et noir
-const _pink = Color(0xFFE91E8C);
+const _pink =
+Color(0xFF4FC3F7);
 const _black = Color(0xFF0A0A0A);
 const _card = Color(0xFF1A1A1A);
 const _card2 = Color(0xFF232323);
@@ -49,14 +50,31 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final vm = context.watch<HomeViewModel>();
     return Scaffold(
-      backgroundColor: _black,
+      backgroundColor: Colors.transparent,
       extendBodyBehindAppBar: true,
       appBar: _buildAppBar(),
-      body: vm.state == ViewState.loading
-          ? _buildLoading()
-          : vm.state == ViewState.error
-          ? _buildError(vm)
-          : _buildContent(vm),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/img.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.65),
+            ),
+          ),
+
+          vm.state == ViewState.loading
+              ? _buildLoading()
+              : vm.state == ViewState.error
+              ? _buildError(vm)
+              : _buildContent(vm),
+        ],
+      ),
     );
   }
 

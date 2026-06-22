@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../data/models/genre.dart';
 
-const _pink = Color(0xFFE91E8C);
+const _pink =
+Color(0xFF4FC3F7);
 const _card = Color(0xFF1A1A1A);
 const _border = Color(0xFF2A2A2A);
 

@@ -18,10 +18,8 @@ import 'presentation/viewmodels/favorites_viewmodel.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Status bar transparente
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
-    statusBarIconBrightness: Brightness.light,
   ));
 
   await dotenv.load(fileName: '.env');
@@ -29,17 +27,20 @@ void main() async {
   Hive.registerAdapter(MovieAdapter());
   await Hive.openBox<Movie>('favorites');
 
-  runApp(const CineFlutterApp());
+  final prefsService = PrefsService();
+  await prefsService.init(); // charge le theme sauvegarde
+
+  runApp(CineFlutterApp(prefsService: prefsService));
 }
 
 class CineFlutterApp extends StatelessWidget {
-  const CineFlutterApp({super.key});
+  final PrefsService prefsService;
+  const CineFlutterApp({super.key, required this.prefsService});
 
   @override
   Widget build(BuildContext context) {
     final apiService = TmdbApiService();
     final hiveService = HiveService();
-    final prefsService = PrefsService();
     final repository = MovieRepository(apiService, hiveService);
 
     return MultiProvider(
@@ -48,16 +49,17 @@ class CineFlutterApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => SearchViewModel(repository)),
         ChangeNotifierProvider(create: (_) => DetailViewModel(repository)),
         ChangeNotifierProvider(create: (_) => FavoritesViewModel(repository)),
-        ChangeNotifierProvider(create: (_) => prefsService),
+        ChangeNotifierProvider.value(value: prefsService),
       ],
-      child: MaterialApp.router(
-        title: 'CineFlutter',
-        debugShowCheckedModeBanner: false,
-        // Rose et noir PARTOUT — thème forcé
-        theme: AppTheme.darkTheme,
-        darkTheme: AppTheme.darkTheme,
-        themeMode: ThemeMode.dark,
-        routerConfig: AppRouter.router,
+      child: Consumer<PrefsService>(
+        builder: (ctx, prefs, _) => MaterialApp.router(
+          title: 'CineFlutter',
+          debugShowCheckedModeBanner: false,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: prefs.themeMode, // <-- reagit au switch maintenant
+          routerConfig: AppRouter.router,
+        ),
       ),
     );
   }

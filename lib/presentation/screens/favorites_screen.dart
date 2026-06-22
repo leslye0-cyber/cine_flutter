@@ -26,9 +26,10 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
     final vm = context.watch<FavoritesViewModel>();
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0A),
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0A0A0A),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: const Text('Mes Favoris',
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700)),
         actions: vm.favorites.isNotEmpty
@@ -40,53 +41,68 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
         ]
             : null,
       ),
-      body: vm.favorites.isEmpty
-          ? _buildEmpty()
-          : ListView.separated(
-        itemCount: vm.favorites.length,
-        separatorBuilder: (_, __) =>
-        const Divider(height: 1, color: Color(0xFF1A1A1A)),
-        itemBuilder: (_, i) {
-          final movie = vm.favorites[i];
-          return Dismissible(
-            key: Key('fav-${movie.id}'),
-            direction: DismissDirection.endToStart,
-            background: Container(
-              color: const Color(0xFFE50914),
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 20),
-              child: const Icon(Icons.delete, color: Colors.white),
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/img.png',
+              fit: BoxFit.cover,
             ),
-            onDismissed: (_) => vm.removeFavorite(movie.id),
-            child: ListTile(
-              tileColor: const Color(0xFF111111),
-              leading: ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: CachedNetworkImage(
-                  imageUrl: AppConstants.posterUrl(movie.posterPath),
-                  width: 48,
-                  height: 64,
-                  fit: BoxFit.cover,
-                  placeholder: (_, __) => Container(
-                    width: 48,
-                    height: 64,
-                    color: const Color(0xFF1A1A1A),
-                  ),
-                  errorWidget: (_, __, ___) =>
-                  const Icon(Icons.movie, color: Colors.grey),
+          ),
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.75),
+            ),
+          ),
+          vm.favorites.isEmpty
+              ? _buildEmpty()
+              : ListView.separated(
+            itemCount: vm.favorites.length,
+            separatorBuilder: (_, __) =>
+            const Divider(height: 1, color: Color(0xFF1A1A1A)),
+            itemBuilder: (_, i) {
+              final movie = vm.favorites[i];
+              return Dismissible(
+                key: Key('fav-${movie.id}'),
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  color: const Color(0xFF4FC3F7),
+                  alignment: Alignment.centerRight,
+                  padding: const EdgeInsets.only(right: 20),
+                  child: const Icon(Icons.delete, color: Colors.white),
                 ),
-              ),
-              title: Text(movie.title,
-                  style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w600)),
-              subtitle: Text(
-                '${movie.year} · ⭐ ${movie.ratingFormatted}',
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
-              ),
-              onTap: () => context.push('/movie/${movie.id}'),
-            ),
-          );
-        },
+                onDismissed: (_) => vm.removeFavorite(movie.id),
+                child: ListTile(
+                  tileColor: Colors.black12,
+                  leading: ClipRRect(
+                    borderRadius: BorderRadius.circular(6),
+                    child: CachedNetworkImage(
+                      imageUrl: AppConstants.posterUrl(movie.posterPath),
+                      width: 48,
+                      height: 64,
+                      fit: BoxFit.cover,
+                      placeholder: (_, __) => Container(
+                        width: 48,
+                        height: 64,
+                        color: const Color(0xFF1A1A1A),
+                      ),
+                      errorWidget: (_, __, ___) =>
+                      const Icon(Icons.movie, color: Colors.grey),
+                    ),
+                  ),
+                  title: Text(movie.title,
+                      style: const TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.w600)),
+                  subtitle: Text(
+                    '${movie.year} · ⭐ ${movie.ratingFormatted}',
+                    style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  ),
+                  onTap: () => context.push('/movie/${movie.id}'),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -129,7 +145,8 @@ class _FavoritesScreenState extends State<FavoritesScreen> {
               Navigator.pop(context);
             },
             child: const Text('Supprimer',
-                style: TextStyle(color: Color(0xFFE50914))),
+                style: TextStyle(color:
+Color(0xFF4FC3F7))),
           ),
         ],
       ),

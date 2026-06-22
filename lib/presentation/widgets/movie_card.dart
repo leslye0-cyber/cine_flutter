@@ -4,9 +4,10 @@ import 'package:go_router/go_router.dart';
 import '../../data/models/movie.dart';
 import '../../core/constants/app_constants.dart';
 
-const _pink = Color(0xFFE91E8C);
+const _pink =
+Color(0xFF4FC3F7);
 
-class MovieCardNetflix extends StatelessWidget {
+class MovieCard extends StatelessWidget {
   final Movie movie;
   final double width;
   final double height;
@@ -14,7 +15,7 @@ class MovieCardNetflix extends StatelessWidget {
   final bool showRating;
   final bool showPlayButton;
 
-  const MovieCardNetflix({
+  const MovieCard({
     super.key,
     required this.movie,
     this.width = 120,
@@ -142,8 +143,9 @@ class MovieCardNetflix extends StatelessWidget {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Color(0xFFE91E8C),
-                            Color(0xFFFF4DB8),
+
+Color(0xFF4FC3F7),
+                            Color(0xFF81D4FA),
                           ],
                         ),
                       ),

@@ -25,9 +25,11 @@ class CircularMovieCard extends StatelessWidget {
                 shape: BoxShape.circle,
                 gradient: SweepGradient(
                   colors: [
-                    Color(0xFFE50914),
-                    Color(0xFFFF6B6B),
-                    Color(0xFFE50914),
+
+Color(0xFF4FC3F7),
+                    Color(0xFF81D4FA),
+
+Color(0xFF4FC3F7),
                   ],
                 ),
               ),

@@ -29,7 +29,10 @@ class _SearchScreenState extends State<SearchScreen> {
     final prefs = context.watch<PrefsService>();
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
         title: TextField(
           controller: _ctrl,
           decoration: InputDecoration(
@@ -61,7 +64,7 @@ class _SearchScreenState extends State<SearchScreen> {
               child: Icon(
                 vm.isListening ? Icons.mic : Icons.mic_none,
                 key: ValueKey(vm.isListening),
-                color: vm.isListening ? Colors.red : Colors.white,
+                color: vm.isListening ? Color(0xFF4FC3F7) : Colors.white,
               ),
             ),
             onPressed: vm.isListening
@@ -72,62 +75,77 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // Indicateur vocal
-          if (vm.isListening)
-            Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              color: Colors.red.withOpacity(0.1),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.mic, color: Colors.red, size: 16),
-                  const SizedBox(width: 8),
-                  Text(vm.voiceStatus,
-                      style: const TextStyle(color: Colors.red, fontWeight: FontWeight.w500)),
-                ],
-              ),
-            ),
-
-          // Filtres Films / Séries / Tout
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Row(
-              children: [
-                _FilterChip(
-                  label: 'Tout',
-                  selected: vm.searchType == SearchType.all,
-                  onTap: () => vm.setSearchType(SearchType.all),
-                ),
-                const SizedBox(width: 8),
-                _FilterChip(
-                  label: '🎬 Films',
-                  selected: vm.searchType == SearchType.movies,
-                  onTap: () => vm.setSearchType(SearchType.movies),
-                ),
-                const SizedBox(width: 8),
-                _FilterChip(
-                  label: '📺 Séries',
-                  selected: vm.searchType == SearchType.tvShows,
-                  onTap: () => vm.setSearchType(SearchType.tvShows),
-                ),
-              ],
+          Positioned.fill(
+            child: Image.asset(
+              'assets/images/img.png',
+              fit: BoxFit.cover,
             ),
           ),
+          Positioned.fill(
+            child: Container(
+              color: Colors.black.withOpacity(0.75),
+            ),
+          ),
+          Column(
+            children: [
+              // Indicateur vocal
+              if (vm.isListening)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  color: const Color(0xFF4FC3F7).withOpacity(0.1),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.mic, color: Color(0xFF4FC3F7), size: 16),
+                      const SizedBox(width: 8),
+                      Text(vm.voiceStatus,
+                          style: const TextStyle(color: Color(0xFF4FC3F7), fontWeight: FontWeight.w500)),
+                    ],
+                  ),
+                ),
 
-          // Contenu
-          Expanded(
-            child: vm.currentQuery.isEmpty
-                ? _buildHistory(prefs, vm)
-                : vm.isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : vm.error != null
-                ? Center(child: Text(vm.error!))
-                : !vm.hasResults
-                ? const Center(child: Text('Aucun résultat'))
-                : _buildResults(vm),
+              // Filtres Films / Séries / Tout
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Row(
+                  children: [
+                    _FilterChip(
+                      label: 'Tout',
+                      selected: vm.searchType == SearchType.all,
+                      onTap: () => vm.setSearchType(SearchType.all),
+                    ),
+                    const SizedBox(width: 8),
+                    _FilterChip(
+                      label: '🎬 Films',
+                      selected: vm.searchType == SearchType.movies,
+                      onTap: () => vm.setSearchType(SearchType.movies),
+                    ),
+                    const SizedBox(width: 8),
+                    _FilterChip(
+                      label: '📺 Séries',
+                      selected: vm.searchType == SearchType.tvShows,
+                      onTap: () => vm.setSearchType(SearchType.tvShows),
+                    ),
+                  ],
+                ),
+              ),
+
+              // Contenu
+              Expanded(
+                child: vm.currentQuery.isEmpty
+                    ? _buildHistory(prefs, vm)
+                    : vm.isLoading
+                    ? const Center(child: CircularProgressIndicator())
+                    : vm.error != null
+                    ? Center(child: Text(vm.error!))
+                    : !vm.hasResults
+                    ? const Center(child: Text('Aucun résultat'))
+                    : _buildResults(vm),
+              ),
+            ],
           ),
         ],
       ),
@@ -199,7 +217,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             itemCount: vm.movieResults.length,
             itemBuilder: (_, i) =>
-                MovieCardNetflix(movie: vm.movieResults[i], width: double.infinity, height: 220),          ),
+                MovieCard(movie: vm.movieResults[i], width: double.infinity, height: 220),          ),
           const SizedBox(height: 24),
         ],
 

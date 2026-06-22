@@ -55,4 +55,4 @@ flutter:
 
   assets:
     - .env
-    - assets/images/
+    - assets/images/img.png

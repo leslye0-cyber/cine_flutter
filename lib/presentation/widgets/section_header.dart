@@ -27,7 +27,8 @@ class SectionHeader extends StatelessWidget {
               child: const Text(
                 'Voir tout',
                 style: TextStyle(
-                  color: Color(0xFFE91E8C),
+                  color:
+Color(0xFF4FC3F7),
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),

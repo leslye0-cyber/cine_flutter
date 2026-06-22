@@ -15,6 +15,11 @@ class FavoritesViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> addFavorite(Movie movie) async {
+    await _repo.addFavorite(movie);
+    loadFavorites();
+  }
+
   Future<void> removeFavorite(int id) async {
     await _repo.removeFavorite(id);
     loadFavorites();
@@ -24,4 +29,6 @@ class FavoritesViewModel extends ChangeNotifier {
     await _repo.clearFavorites();
     loadFavorites();
   }
+
+  bool isFavorite(int id) => favorites.any((m) => m.id == id);
 }

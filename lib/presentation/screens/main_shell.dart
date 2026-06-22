@@ -28,7 +28,8 @@ class MainShell extends StatelessWidget {
         child: BottomNavigationBar(
           currentIndex: _locationToIndex(location),
           backgroundColor: const Color(0xFF111111),
-          selectedItemColor: const Color(0xFFE91E8C),
+          selectedItemColor: const
+Color(0xFF4FC3F7),
           unselectedItemColor: const Color(0xFF666666),
           type: BottomNavigationBarType.fixed,
           elevation: 0,

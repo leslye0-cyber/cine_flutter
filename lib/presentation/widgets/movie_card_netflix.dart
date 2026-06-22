@@ -127,7 +127,8 @@ class MovieCardNetflix extends StatelessWidget {
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: const Icon(Icons.favorite,
-                            color: Color(0xFFE50914), size: 12),
+                            color:
+Color(0xFF4FC3F7), size: 12),
                       ),
                     ),
 
@@ -141,8 +142,9 @@ class MovieCardNetflix extends StatelessWidget {
                       decoration: const BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            Color(0xFFE50914),
-                            Color(0xFFFF6B6B),
+
+Color(0xFF4FC3F7),
+                            Color(0xFF81D4FA),
                           ],
                         ),
                       ),
