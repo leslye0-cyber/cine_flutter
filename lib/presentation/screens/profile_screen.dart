@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import '../../data/services/local/prefs_service.dart';
 
-const _pink =
-Color(0xFF4FC3F7);
+const _accent = Color(0xFF2196F3); // remplace par ta couleur bleue exacte si differente
 const _black = Color(0xFF0A0A0A);
 const _card = Color(0xFF1A1A1A);
 
@@ -12,71 +9,48 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final prefs = context.watch<PrefsService>();
-    final isDark = prefs.themeMode == ThemeMode.dark;
-
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: _black,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+        backgroundColor: _black,
         title: const Text(
           'Profil',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
         ),
       ),
-      body: Stack(
+      body: ListView(
+        padding: const EdgeInsets.symmetric(vertical: 16),
         children: [
-          Positioned.fill(
-            child: Image.asset(
-              'assets/images/img.png',
-              fit: BoxFit.cover,
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: _card,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const ListTile(
+              leading: Icon(Icons.movie_outlined, color: _accent),
+              title: Text('CineFlutter', style: TextStyle(color: Colors.white)),
+              subtitle: Text(
+                'Catalogue de films et series',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
+              ),
             ),
           ),
-          Positioned.fill(
-            child: Container(
-              color: Colors.black.withOpacity(0.75),
+          const SizedBox(height: 10),
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: _card,
+              borderRadius: BorderRadius.circular(10),
             ),
-          ),
-          ListView(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            children: [
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.black45,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white10),
-                ),
-                child: ListTile(
-                  leading: const Icon(Icons.dark_mode_outlined, color: Colors.white),
-                  title: const Text('Mode sombre',
-                      style: TextStyle(color: Colors.white)),
-                  trailing: Switch(
-                    value: isDark,
-                    activeColor: _pink,
-                    onChanged: (_) => prefs.toggleTheme(),
-                  ),
-                ),
+            child: const ListTile(
+              leading: Icon(Icons.info_outline, color: Colors.white),
+              title: Text('A propos', style: TextStyle(color: Colors.white)),
+              subtitle: Text(
+                'CineFlutter v1.0 - Projet academique Flutter & TMDB',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
-              const SizedBox(height: 10),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 16),
-                decoration: BoxDecoration(
-                  color: Colors.black45,
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(color: Colors.white10),
-                ),
-                child: const ListTile(
-                  leading: Icon(Icons.info_outline, color: Colors.white),
-                  title: Text('A propos', style: TextStyle(color: Colors.white)),
-                  subtitle: Text(
-                    'CineFlutter v1.0 - Projet academique Flutter & TMDB',
-                    style: TextStyle(color: Colors.grey, fontSize: 12),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ],
       ),

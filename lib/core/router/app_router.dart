@@ -4,7 +4,6 @@ import '../../presentation/screens/search_screen.dart';
 import '../../presentation/screens/detail_screen.dart';
 import '../../presentation/screens/favorites_screen.dart';
 import '../../presentation/screens/profile_screen.dart';
-import '../../presentation/screens/downloads_screen.dart';
 import '../../presentation/screens/coming_soon_screen.dart';
 import '../../presentation/screens/main_shell.dart';
 
@@ -28,16 +27,12 @@ class AppRouter {
             builder: (ctx, _) => const ComingSoonScreen(),
           ),
           GoRoute(
-            path: '/downloads',
-            builder: (ctx, _) => const DownloadsScreen(),
+            path: '/favorites',
+            builder: (ctx, _) => const FavoritesScreen(),
           ),
           GoRoute(
             path: '/profile',
             builder: (ctx, _) => const ProfileScreen(),
-          ),
-          GoRoute(
-            path: '/favorites',
-            builder: (ctx, _) => const FavoritesScreen(),
           ),
         ],
       ),

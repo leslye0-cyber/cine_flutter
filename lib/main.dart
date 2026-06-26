@@ -20,6 +20,7 @@ void main() async {
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.light,
   ));
 
   await dotenv.load(fileName: '.env');
@@ -28,7 +29,7 @@ void main() async {
   await Hive.openBox<Movie>('favorites');
 
   final prefsService = PrefsService();
-  await prefsService.init(); // charge le theme sauvegarde
+  await prefsService.init();
 
   runApp(CineFlutterApp(prefsService: prefsService));
 }
@@ -51,15 +52,12 @@ class CineFlutterApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => FavoritesViewModel(repository)),
         ChangeNotifierProvider.value(value: prefsService),
       ],
-      child: Consumer<PrefsService>(
-        builder: (ctx, prefs, _) => MaterialApp.router(
-          title: 'CineFlutter',
-          debugShowCheckedModeBanner: false,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: prefs.themeMode, // <-- reagit au switch maintenant
-          routerConfig: AppRouter.router,
-        ),
+      child: MaterialApp.router(
+        title: 'CineFlutter',
+        debugShowCheckedModeBanner: false,
+        // UN SEUL theme fixe - pas de mode sombre/clair
+        theme: AppTheme.darkTheme,
+        routerConfig: AppRouter.router,
       ),
     );
   }

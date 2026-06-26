@@ -8,7 +8,7 @@ class MainShell extends StatelessWidget {
   int _locationToIndex(String location) {
     if (location.startsWith('/search')) return 1;
     if (location.startsWith('/coming-soon')) return 2;
-    if (location.startsWith('/downloads')) return 3;
+    if (location.startsWith('/favorites')) return 3;
     if (location.startsWith('/profile')) return 4;
     return 0;
   }
@@ -28,8 +28,7 @@ class MainShell extends StatelessWidget {
         child: BottomNavigationBar(
           currentIndex: _locationToIndex(location),
           backgroundColor: const Color(0xFF111111),
-          selectedItemColor: const
-Color(0xFF4FC3F7),
+          selectedItemColor: const Color(0xFF2196F3), // bleu - adapte si besoin
           unselectedItemColor: const Color(0xFF666666),
           type: BottomNavigationBarType.fixed,
           elevation: 0,
@@ -37,11 +36,21 @@ Color(0xFF4FC3F7),
           unselectedFontSize: 10,
           onTap: (i) {
             switch (i) {
-              case 0: context.go('/'); break;
-              case 1: context.go('/search'); break;
-              case 2: context.go('/coming-soon'); break;
-              case 3: context.go('/downloads'); break;
-              case 4: context.go('/profile'); break;
+              case 0:
+                context.go('/');
+                break;
+              case 1:
+                context.go('/search');
+                break;
+              case 2:
+                context.go('/coming-soon');
+                break;
+              case 3:
+                context.go('/favorites');
+                break;
+              case 4:
+                context.go('/profile');
+                break;
             }
           },
           items: const [
@@ -61,9 +70,9 @@ Color(0xFF4FC3F7),
               label: 'A venir',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.download_outlined),
-              activeIcon: Icon(Icons.download),
-              label: 'Downloads',
+              icon: Icon(Icons.favorite_border),
+              activeIcon: Icon(Icons.favorite),
+              label: 'Ma liste',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person_outline),
